@@ -135,7 +135,6 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
 @property (nonatomic, readwrite, copy) NSArray<UIColor *> *randomColors;
 @property (nonatomic, readwrite, copy) NSArray *cellModels;
 
-
 @end
 
 @implementation ViewController
@@ -149,16 +148,17 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
 - (void)setupCollectionView {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    layout.sectionInset = UIEdgeInsetsZero;
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
 
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 100, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) / 16 * 9) collectionViewLayout:layout];
-    self.collectionView.backgroundColor = [UIColor blackColor];
+    self.collectionView.backgroundColor = [UIColor grayColor];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.pagingEnabled = YES;
     self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     [self.view addSubview:self.collectionView];
 
     [self.collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"CellIdentifier"];
@@ -230,6 +230,20 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%ld", [self.windowModel transformIndexWithIndexPath:indexPath]);
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+    if (size.width > size.height) {
+        self.collectionView.frame = CGRectMake(0, 0, size.width, size.height);
+    } else {
+        self.collectionView.frame = CGRectMake(0, 100, size.width, size.width / 16 * 9);
+    }
+}
+
+- (CGPoint)collectionView:(UICollectionView *)collectionView targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset {
+    return CGPointZero;
 }
 
 @end
