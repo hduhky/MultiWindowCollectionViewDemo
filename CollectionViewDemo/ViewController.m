@@ -134,6 +134,8 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
 @property (nonatomic, readwrite, strong) UICollectionView *collectionView;
 @property (nonatomic, readwrite, copy) NSArray<UIColor *> *randomColors;
 @property (nonatomic, readwrite, copy) NSArray *cellModels;
+@property (nonatomic, readwrite, assign) NSInteger currentPageIndex;
+@property (nonatomic, readwrite, assign) NSInteger currentFocusIndex;
 
 @end
 
@@ -197,12 +199,14 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
 
 - (void)onButtonClicked:(UIButton *)button {
     [self updateWindowMode:button.tag];
-    [self.collectionView reloadData];
 }
 
 - (void)updateWindowMode:(WindowMode)windowMode {
     self.windowModel = [[WindowModel alloc] initWithWindowMode:windowMode];
     self.cellModels = [self.windowModel fillArray:self.randomColors];
+    self.currentPageIndex = self.currentFocusIndex / self.windowModel.itemsPerPage;
+    [self.collectionView setContentOffset:CGPointMake(self.currentPageIndex * CGRectGetWidth(self.collectionView.bounds), 0) animated:NO];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -216,9 +220,18 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
     if ([self.cellModels[index] isKindOfClass:[UIColor class]]) {
         cell.text = [NSString stringWithFormat:@"%ld", index];
         cell.backgroundColor = self.cellModels[index];
+        // 检查是否是焦点窗格
+        if (index == self.currentFocusIndex) {
+            // 设置焦点窗格的外观
+            cell.layer.borderWidth = 2.0;
+            cell.layer.borderColor = [UIColor redColor].CGColor;
+        } else {
+            cell.layer.borderWidth = 0.0;
+        }
     } else {
         cell.text = @"";
         cell.backgroundColor = [UIColor clearColor];
+        cell.layer.borderWidth = 0.0;
     }
     return cell;
 }
@@ -228,10 +241,41 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
     return [self.windowModel transformItemSizeWithCollectionViewSize:collectionView.bounds.size];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"%ld", [self.windowModel transformIndexWithIndexPath:indexPath]);
+- (CGPoint)collectionView:(UICollectionView *)collectionView targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset {
+    return CGPointMake(self.currentPageIndex * CGRectGetWidth(self.collectionView.bounds), 0);
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger index = [self.windowModel transformIndexWithIndexPath:indexPath];
+    if ([self.cellModels[index] isKindOfClass:[UIColor class]]) {
+        self.currentFocusIndex = index;
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger oldPageIndex = self.currentPageIndex;
+    NSInteger currentPageIndex = [self calculateCurrentPageIndex];
+    if (oldPageIndex != currentPageIndex) {
+        self.currentPageIndex = currentPageIndex;
+        self.currentFocusIndex = currentPageIndex * self.windowModel.itemsPerPage;
+    }
+}
+
+#pragma mark - calculate index
+- (NSInteger)calculateCurrentPageIndex {
+    CGFloat pageWidth = CGRectGetWidth(self.collectionView.bounds);
+    NSInteger currentPage = floor((self.collectionView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    return currentPage;
+}
+
+- (void)setCurrentFocusIndex:(NSInteger)currentFocusIndex {
+    if (_currentFocusIndex != currentFocusIndex) {
+        _currentFocusIndex = currentFocusIndex;
+        [self.collectionView reloadData];
+    }
+}
+
+#pragma mark - rotation
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self.collectionView.collectionViewLayout invalidateLayout];
@@ -240,10 +284,6 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
     } else {
         self.collectionView.frame = CGRectMake(0, 100, size.width, size.width / 16 * 9);
     }
-}
-
-- (CGPoint)collectionView:(UICollectionView *)collectionView targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset {
-    return CGPointZero;
 }
 
 @end
