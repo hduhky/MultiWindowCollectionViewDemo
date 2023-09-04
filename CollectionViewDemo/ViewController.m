@@ -6,6 +6,7 @@
 
 @property (nonatomic, readwrite, strong) HKYMultiWindowView *multiWindowView;
 @property (nonatomic, readwrite, copy) NSArray<UIColor *> *randomColors;
+@property (nonatomic, readwrite, assign) HKYWindowMode previousWindowMode;
 
 @end
 
@@ -26,6 +27,9 @@
 
     [self.multiWindowView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"CellIdentifier"];
 
+    // 根据实际情况确定1分屏首次切换至几分屏
+    self.previousWindowMode = HKYWindowMode6;
+    
     // 生成随机颜色数组
     NSMutableArray *colors = [NSMutableArray array];
     for (int i = 0; i < 16; i++) {
@@ -60,14 +64,26 @@
     self.multiWindowView.windowMode = button.tag;
 }
 
+- (void)toggleWindowMode {
+    if (self.multiWindowView.windowMode == HKYWindowMode1) {
+        self.multiWindowView.windowMode = self.previousWindowMode;
+    } else {
+        self.previousWindowMode = self.multiWindowView.windowMode;
+        self.multiWindowView.windowMode = HKYWindowMode1;
+    }
+}
+
 #pragma mark - HKYMultiWindowViewDataSource
-- (NSInteger)mulitWindowViewNumberOfItems:(HKYMultiWindowView *)mulitWindowView {
+- (NSInteger)multiWindowViewNumberOfItems:(HKYMultiWindowView *)multiWindowView {
     return self.randomColors.count;
 }
 
-- (UICollectionViewCell *)mulitWindowView:(HKYMultiWindowView *)mulitWindowView cellForItemAtIndex:(NSInteger)index {
-    CollectionViewCell *cell = [mulitWindowView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndex:index];
+- (UICollectionViewCell *)multiWindowView:(HKYMultiWindowView *)multiWindowView cellForItemAtIndex:(NSInteger)index {
+    CollectionViewCell *cell = [multiWindowView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndex:index];
     if (index < self.randomColors.count) {
+        cell.block = ^() {
+            [self toggleWindowMode];
+        };
         cell.text = [NSString stringWithFormat:@"%ld", index];
         cell.backgroundColor = self.randomColors[index];
         // 检查是否是焦点窗格
@@ -79,6 +95,7 @@
             cell.layer.borderWidth = 0.0;
         }
     } else {
+        cell.block = nil;
         cell.text = @"";
         cell.backgroundColor = [UIColor clearColor];
         cell.layer.borderWidth = 0.0;
@@ -87,10 +104,18 @@
 }
 
 #pragma mark - HKYMultiWindowViewDelegate
-- (void)mulitWindowView:(HKYMultiWindowView *)mulitWindowView didSelectItemAtIndex:(NSInteger)index {
+- (void)multiWindowView:(HKYMultiWindowView *)multiWindowView didSelectItemAtIndex:(NSInteger)index {
     if (index < self.randomColors.count) {
         self.multiWindowView.currentFocusIndex = index;
     }
+}
+
+- (void)multiWindowView:(HKYMultiWindowView *)multiWindowView onCurrentPageIndexChanged:(NSInteger)currentPageIndex {
+    NSLog(@"currentPageIndex: %ld", currentPageIndex);
+}
+
+- (void)multiWindowView:(HKYMultiWindowView *)multiWindowView onCurrentFocusIndexChanged:(NSInteger)currentFocusIndex {
+    NSLog(@"currentFocusIndex: %ld", currentFocusIndex);
 }
 
 #pragma mark - rotation

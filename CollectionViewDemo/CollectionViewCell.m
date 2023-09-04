@@ -15,6 +15,22 @@
 
 @implementation CollectionViewCell
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+        doubleTapGesture.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:doubleTapGesture];
+    }
+    return self;
+}
+
+- (void)handleDoubleTap:(UITapGestureRecognizer *)gesture {
+    if (self.block) {
+        self.block();
+    }
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.label.frame = self.bounds;

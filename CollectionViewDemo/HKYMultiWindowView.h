@@ -14,15 +14,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol HKYMultiWindowViewDataSource <NSObject>
 
-- (NSInteger)mulitWindowViewNumberOfItems:(HKYMultiWindowView *)mulitWindowView;
+- (NSInteger)multiWindowViewNumberOfItems:(HKYMultiWindowView *)multiWindowView;
 
-- (UICollectionViewCell *)mulitWindowView:(HKYMultiWindowView *)mulitWindowView cellForItemAtIndex:(NSInteger)index;
+- (UICollectionViewCell *)multiWindowView:(HKYMultiWindowView *)multiWindowView cellForItemAtIndex:(NSInteger)index;
 
 @end
 
 @protocol HKYMultiWindowViewDelegate <NSObject>
 
-- (void)mulitWindowView:(HKYMultiWindowView *)mulitWindowView didSelectItemAtIndex:(NSInteger)index;
+- (void)multiWindowView:(HKYMultiWindowView *)multiWindowView didSelectItemAtIndex:(NSInteger)index;
+
+- (void)multiWindowView:(HKYMultiWindowView *)multiWindowView onCurrentFocusIndexChanged:(NSInteger)currentFocusIndex;
+
+- (void)multiWindowView:(HKYMultiWindowView *)multiWindowView onCurrentPageIndexChanged:(NSInteger)currentPageIndex;
 
 @end
 

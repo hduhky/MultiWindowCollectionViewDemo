@@ -56,6 +56,10 @@
         }
         
         [self.collectionView reloadData];
+        
+        if ([self.delegate respondsToSelector:@selector(multiWindowView:onCurrentFocusIndexChanged:)]) {
+            [self.delegate multiWindowView:self onCurrentFocusIndexChanged:currentFocusIndex];
+        }
     }
 }
 
@@ -70,8 +74,8 @@
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([self.dataSource respondsToSelector:@selector(mulitWindowViewNumberOfItems:)]) {
-        NSInteger originalItemCount = [self.dataSource mulitWindowViewNumberOfItems:self];
+    if ([self.dataSource respondsToSelector:@selector(multiWindowViewNumberOfItems:)]) {
+        NSInteger originalItemCount = [self.dataSource multiWindowViewNumberOfItems:self];
         NSInteger totalItemCount = [self.windowModel calculateTotalItemCountWithOriginalItemCount:originalItemCount];
         return totalItemCount;
     }
@@ -79,9 +83,9 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.dataSource respondsToSelector:@selector(mulitWindowView:cellForItemAtIndex:)]) {
+    if ([self.dataSource respondsToSelector:@selector(multiWindowView:cellForItemAtIndex:)]) {
         NSInteger index = [self.windowModel indexWithTransformedIndexPath:indexPath];
-        UICollectionViewCell *cell = [self.dataSource mulitWindowView:self cellForItemAtIndex:index];
+        UICollectionViewCell *cell = [self.dataSource multiWindowView:self cellForItemAtIndex:index];
         return cell;
     }
     return [[UICollectionViewCell alloc] init];
@@ -97,9 +101,9 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.delegate respondsToSelector:@selector(mulitWindowView:didSelectItemAtIndex:)]) {
+    if ([self.delegate respondsToSelector:@selector(multiWindowView:didSelectItemAtIndex:)]) {
         NSInteger index = [self.windowModel indexWithTransformedIndexPath:indexPath];
-        [self.delegate mulitWindowView:self didSelectItemAtIndex:index];
+        [self.delegate multiWindowView:self didSelectItemAtIndex:index];
     }
 }
 
@@ -122,6 +126,9 @@
 - (void)setCurrentPageIndex:(NSInteger)currentPageIndex {
     _currentPageIndex = currentPageIndex;
     [self.collectionView setContentOffset:CGPointMake(self.currentPageIndex * CGRectGetWidth(self.collectionView.bounds), 0) animated:NO];
+    if ([self.delegate respondsToSelector:@selector(multiWindowView:onCurrentPageIndexChanged:)]) {
+        [self.delegate multiWindowView:self onCurrentPageIndexChanged:currentPageIndex];
+    }
 }
 
 #pragma mark - getter

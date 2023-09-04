@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, readwrite, copy) NSString *text;
+@property (nonatomic, readwrite, copy, nullable) void (^block)(void);
 
 @end
 
