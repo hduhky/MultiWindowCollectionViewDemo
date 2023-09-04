@@ -15,6 +15,8 @@
 		26B23F292AA1E10B00C0188B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26B23F272AA1E10B00C0188B /* LaunchScreen.storyboard */; };
 		26B23F2C2AA1E10B00C0188B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 26B23F2B2AA1E10B00C0188B /* main.m */; };
 		26B23F342AA1E2A200C0188B /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 26B23F332AA1E2A200C0188B /* CollectionViewCell.m */; };
+		26C1D00A2AA5A5C2004F9403 /* HKYMultiWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C1D0092AA5A5C2004F9403 /* HKYMultiWindowView.m */; };
+		26C1D00D2AA5A5DB004F9403 /* HKYWindowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 26C1D00C2AA5A5DB004F9403 /* HKYWindowModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,10 @@
 		26B23F2B2AA1E10B00C0188B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		26B23F322AA1E2A200C0188B /* CollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		26B23F332AA1E2A200C0188B /* CollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		26C1D0082AA5A5C2004F9403 /* HKYMultiWindowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HKYMultiWindowView.h; sourceTree = "<group>"; };
+		26C1D0092AA5A5C2004F9403 /* HKYMultiWindowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HKYMultiWindowView.m; sourceTree = "<group>"; };
+		26C1D00B2AA5A5DB004F9403 /* HKYWindowModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HKYWindowModel.h; sourceTree = "<group>"; };
+		26C1D00C2AA5A5DB004F9403 /* HKYWindowModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HKYWindowModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +76,10 @@
 				26B23F1D2AA1E10900C0188B /* SceneDelegate.m */,
 				26B23F1F2AA1E10900C0188B /* ViewController.h */,
 				26B23F202AA1E10900C0188B /* ViewController.m */,
+				26C1D00B2AA5A5DB004F9403 /* HKYWindowModel.h */,
+				26C1D00C2AA5A5DB004F9403 /* HKYWindowModel.m */,
+				26C1D0082AA5A5C2004F9403 /* HKYMultiWindowView.h */,
+				26C1D0092AA5A5C2004F9403 /* HKYMultiWindowView.m */,
 				26B23F322AA1E2A200C0188B /* CollectionViewCell.h */,
 				26B23F332AA1E2A200C0188B /* CollectionViewCell.m */,
 				26B23F222AA1E10900C0188B /* Main.storyboard */,
@@ -153,9 +163,11 @@
 			files = (
 				26B23F212AA1E10900C0188B /* ViewController.m in Sources */,
 				26B23F342AA1E2A200C0188B /* CollectionViewCell.m in Sources */,
+				26C1D00D2AA5A5DB004F9403 /* HKYWindowModel.m in Sources */,
 				26B23F1B2AA1E10900C0188B /* AppDelegate.m in Sources */,
 				26B23F2C2AA1E10B00C0188B /* main.m in Sources */,
 				26B23F1E2AA1E10900C0188B /* SceneDelegate.m in Sources */,
+				26C1D00A2AA5A5C2004F9403 /* HKYMultiWindowView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
