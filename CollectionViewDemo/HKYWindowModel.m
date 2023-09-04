@@ -99,25 +99,7 @@
 }
 
 - (NSInteger)itemsPerPage {
-    NSInteger itemsPerPage;
-    switch (self.windowMode) {
-        case HKYWindowMode1:
-            itemsPerPage = 1;
-            break;
-        case HKYWindowMode4:
-            itemsPerPage = 4;
-            break;
-        case HKYWindowMode6:
-            itemsPerPage = 6;
-            break;
-        case HKYWindowMode9:
-            itemsPerPage = 9;
-            break;
-        case HKYWindowMode16:
-            itemsPerPage = 16;
-            break;
-    }
-    return itemsPerPage;
+    return self.rowCount * self.colCount;
 }
 
 @end
