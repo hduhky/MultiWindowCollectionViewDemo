@@ -48,6 +48,17 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
     return CGSizeMake(collectionViewSize.width / self.colCount, collectionViewSize.height / self.rowCount);
 }
 
+- (NSArray *)fillArray:(NSArray *)originalArray {
+    NSInteger totalPageCount = ceil((double)originalArray.count / self.itemsPerPage);
+    NSInteger extraModelCount = totalPageCount * self.itemsPerPage - originalArray.count;
+    NSMutableArray *extraArray = [NSMutableArray array];
+    for (int i = 0; i < extraModelCount; i++) {
+        [extraArray addObject:[NSNull null]];
+    }
+    NSMutableArray *result = [NSMutableArray arrayWithArray:originalArray];
+    [result addObjectsFromArray:extraArray];
+    return [result copy];
+}
 
 - (NSInteger)rowCount {
     NSInteger rowCount;
@@ -143,6 +154,7 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
     layout.minimumInteritemSpacing = 0;
 
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 100, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) / 16 * 9) collectionViewLayout:layout];
+    self.collectionView.backgroundColor = [UIColor blackColor];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.pagingEnabled = YES;
@@ -162,8 +174,7 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
     }
     self.randomColors = [colors copy];
     
-    self.windowModel = [[WindowModel alloc] initWithWindowMode:WindowMode1];
-    self.cellModels = [self fillArray:self.randomColors];
+    [self updateWindowMode:WindowMode1];
 }
 
 - (void)setupWindowModeButtons {
@@ -185,21 +196,13 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
 }
 
 - (void)onButtonClicked:(UIButton *)button {
-    self.windowModel.windowMode = button.tag;
-    self.cellModels = [self fillArray:self.randomColors];
+    [self updateWindowMode:button.tag];
     [self.collectionView reloadData];
 }
 
-- (NSArray *)fillArray:(NSArray *)originalArray {
-    NSInteger totalPageCount = ceil((double)originalArray.count / self.windowModel.itemsPerPage);
-    NSInteger extraModelCount = totalPageCount * self.windowModel.itemsPerPage - originalArray.count;
-    NSMutableArray *extraArray = [NSMutableArray array];
-    for (int i = 0; i < extraModelCount; i++) {
-        [extraArray addObject:[NSNull null]];
-    }
-    NSMutableArray *result = [NSMutableArray arrayWithArray:originalArray];
-    [result addObjectsFromArray:extraArray];
-    return [result copy];
+- (void)updateWindowMode:(WindowMode)windowMode {
+    self.windowModel = [[WindowModel alloc] initWithWindowMode:windowMode];
+    self.cellModels = [self.windowModel fillArray:self.randomColors];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -213,6 +216,9 @@ typedef NS_ENUM(NSUInteger, WindowMode) {
     if ([self.cellModels[index] isKindOfClass:[UIColor class]]) {
         cell.text = [NSString stringWithFormat:@"%ld", index];
         cell.backgroundColor = self.cellModels[index];
+    } else {
+        cell.text = @"";
+        cell.backgroundColor = [UIColor clearColor];
     }
     return cell;
 }
