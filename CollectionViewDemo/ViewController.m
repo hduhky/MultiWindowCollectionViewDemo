@@ -20,7 +20,6 @@
 
 - (void)setupCollectionView {
     self.multiWindowView = [[HKYMultiWindowView alloc] initWithFrame:CGRectMake(0, 100, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) / 16 * 9)];
-    self.multiWindowView.backgroundColor = [UIColor grayColor];
     self.multiWindowView.dataSource = self;
     self.multiWindowView.delegate = self;
     [self.view addSubview:self.multiWindowView];
