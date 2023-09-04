@@ -18,6 +18,10 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+        singleTapGesture.numberOfTapsRequired = 1;
+        [self addGestureRecognizer:singleTapGesture];
+        
         UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
         doubleTapGesture.numberOfTapsRequired = 2;
         [self addGestureRecognizer:doubleTapGesture];
@@ -25,9 +29,15 @@
     return self;
 }
 
+- (void)handleSingleTap:(UITapGestureRecognizer *)gesture {
+    if (self.onTapped) {
+        self.onTapped(self.index);
+    }
+}
+
 - (void)handleDoubleTap:(UITapGestureRecognizer *)gesture {
-    if (self.block) {
-        self.block();
+    if (self.onDoubleTapped) {
+        self.onDoubleTapped();
     }
 }
 

@@ -100,13 +100,6 @@
     return CGPointMake(self.currentPageIndex * CGRectGetWidth(self.collectionView.bounds), 0);
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.delegate respondsToSelector:@selector(multiWindowView:didSelectItemAtIndex:)]) {
-        NSInteger index = [self.windowModel indexWithTransformedIndexPath:indexPath];
-        [self.delegate multiWindowView:self didSelectItemAtIndex:index];
-    }
-}
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSInteger oldPageIndex = self.currentPageIndex;
     NSInteger currentPageIndex = [self calculateCurrentPageIndex];

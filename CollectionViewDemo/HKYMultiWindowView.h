@@ -22,8 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol HKYMultiWindowViewDelegate <NSObject>
 
-- (void)multiWindowView:(HKYMultiWindowView *)multiWindowView didSelectItemAtIndex:(NSInteger)index;
-
 - (void)multiWindowView:(HKYMultiWindowView *)multiWindowView onCurrentFocusIndexChanged:(NSInteger)currentFocusIndex;
 
 - (void)multiWindowView:(HKYMultiWindowView *)multiWindowView onCurrentPageIndexChanged:(NSInteger)currentPageIndex;

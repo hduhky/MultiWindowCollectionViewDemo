@@ -79,10 +79,18 @@
 
 - (UICollectionViewCell *)multiWindowView:(HKYMultiWindowView *)multiWindowView cellForItemAtIndex:(NSInteger)index {
     CollectionViewCell *cell = [multiWindowView dequeueReusableCellWithReuseIdentifier:@"CellIdentifier" forIndex:index];
-    if (index < self.randomColors.count) {
-        cell.block = ^() {
+    cell.index = index;
+    cell.onTapped = ^(NSInteger index) {
+        if (index < self.randomColors.count) {
+            self.multiWindowView.currentFocusIndex = index;
+        }
+    };
+    cell.onDoubleTapped = ^() {
+        if (index < self.randomColors.count) {   
             [self toggleWindowMode];
-        };
+        }
+    };
+    if (index < self.randomColors.count) {
         cell.text = [NSString stringWithFormat:@"%ld", index];
         cell.backgroundColor = self.randomColors[index];
         // 检查是否是焦点窗格
@@ -94,7 +102,6 @@
             cell.layer.borderWidth = 0.0;
         }
     } else {
-        cell.block = nil;
         cell.text = @"";
         cell.backgroundColor = [UIColor clearColor];
         cell.layer.borderWidth = 0.0;
@@ -103,12 +110,6 @@
 }
 
 #pragma mark - HKYMultiWindowViewDelegate
-- (void)multiWindowView:(HKYMultiWindowView *)multiWindowView didSelectItemAtIndex:(NSInteger)index {
-    if (index < self.randomColors.count) {
-        self.multiWindowView.currentFocusIndex = index;
-    }
-}
-
 - (void)multiWindowView:(HKYMultiWindowView *)multiWindowView onCurrentPageIndexChanged:(NSInteger)currentPageIndex {
     NSLog(@"currentPageIndex: %ld", currentPageIndex);
 }
