@@ -51,6 +51,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2652059F2AA81E9E0032C35E /* HKYMultiWindowView */ = {
+			isa = PBXGroup;
+			children = (
+				26C1D00B2AA5A5DB004F9403 /* HKYWindowModel.h */,
+				26C1D00C2AA5A5DB004F9403 /* HKYWindowModel.m */,
+				26C1D0082AA5A5C2004F9403 /* HKYMultiWindowView.h */,
+				26C1D0092AA5A5C2004F9403 /* HKYMultiWindowView.m */,
+			);
+			path = HKYMultiWindowView;
+			sourceTree = "<group>";
+		};
 		26B23F0D2AA1E10900C0188B = {
 			isa = PBXGroup;
 			children = (
@@ -76,10 +87,7 @@
 				26B23F1D2AA1E10900C0188B /* SceneDelegate.m */,
 				26B23F1F2AA1E10900C0188B /* ViewController.h */,
 				26B23F202AA1E10900C0188B /* ViewController.m */,
-				26C1D00B2AA5A5DB004F9403 /* HKYWindowModel.h */,
-				26C1D00C2AA5A5DB004F9403 /* HKYWindowModel.m */,
-				26C1D0082AA5A5C2004F9403 /* HKYMultiWindowView.h */,
-				26C1D0092AA5A5C2004F9403 /* HKYMultiWindowView.m */,
+				2652059F2AA81E9E0032C35E /* HKYMultiWindowView */,
 				26B23F322AA1E2A200C0188B /* CollectionViewCell.h */,
 				26B23F332AA1E2A200C0188B /* CollectionViewCell.m */,
 				26B23F222AA1E10900C0188B /* Main.storyboard */,
