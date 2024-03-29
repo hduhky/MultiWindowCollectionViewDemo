@@ -50,6 +50,17 @@
     self.label.text = text;
 }
 
+- (void)setIsFocused:(BOOL)isFocused {
+    // 检查是否是焦点窗格
+    if (isFocused) {
+        // 设置焦点窗格的外观
+        self.layer.borderWidth = 2.0;
+        self.layer.borderColor = [UIColor redColor].CGColor;
+    } else {
+        self.layer.borderWidth = 0.0;
+    }
+}
+
 - (UILabel *)label {
     if (!_label) {
         _label = [[UILabel alloc] initWithFrame:self.bounds];

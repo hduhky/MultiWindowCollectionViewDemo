@@ -47,19 +47,13 @@
 - (void)setCurrentFocusIndex:(NSInteger)currentFocusIndex {
     if (_currentFocusIndex != currentFocusIndex) {
         _currentFocusIndex = currentFocusIndex;
-        
-        // 更新焦点窗格时刷新窗格页数
-        NSInteger oldPageIndex = self.currentPageIndex;
-        NSInteger currentPageIndex = currentFocusIndex / self.windowModel.itemsPerPage;
-        if (oldPageIndex != currentPageIndex) {
-            self.currentPageIndex = currentPageIndex;
-        }
-        
         [self.collectionView reloadData];
-        
         if ([self.delegate respondsToSelector:@selector(multiWindowView:onCurrentFocusIndexChanged:)]) {
             [self.delegate multiWindowView:self onCurrentFocusIndexChanged:currentFocusIndex];
         }
+        // 更新焦点窗格时刷新窗格页数
+        NSInteger currentPageIndex = currentFocusIndex / self.windowModel.itemsPerPage;
+        self.currentPageIndex = currentPageIndex;
     }
 }
 
@@ -117,10 +111,12 @@
 }
 
 - (void)setCurrentPageIndex:(NSInteger)currentPageIndex {
-    _currentPageIndex = currentPageIndex;
-    [self.collectionView setContentOffset:CGPointMake(self.currentPageIndex * CGRectGetWidth(self.collectionView.bounds), 0) animated:NO];
-    if ([self.delegate respondsToSelector:@selector(multiWindowView:onCurrentPageIndexChanged:)]) {
-        [self.delegate multiWindowView:self onCurrentPageIndexChanged:currentPageIndex];
+    if (_currentPageIndex != currentPageIndex) {
+        _currentPageIndex = currentPageIndex;
+        [self.collectionView setContentOffset:CGPointMake(self.currentPageIndex * CGRectGetWidth(self.collectionView.bounds), 0) animated:NO];
+        if ([self.delegate respondsToSelector:@selector(multiWindowView:onCurrentPageIndexChanged:)]) {
+            [self.delegate multiWindowView:self onCurrentPageIndexChanged:currentPageIndex];
+        }
     }
 }
 

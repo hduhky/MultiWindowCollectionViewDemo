@@ -95,16 +95,14 @@
         cell.backgroundColor = self.randomColors[index];
         // 检查是否是焦点窗格
         if (index == self.multiWindowView.currentFocusIndex) {
-            // 设置焦点窗格的外观
-            cell.layer.borderWidth = 2.0;
-            cell.layer.borderColor = [UIColor redColor].CGColor;
+            cell.isFocused = YES;
         } else {
-            cell.layer.borderWidth = 0.0;
+            cell.isFocused = NO;
         }
     } else {
         cell.text = @"";
         cell.backgroundColor = [UIColor clearColor];
-        cell.layer.borderWidth = 0.0;
+        cell.isFocused = NO;
     }
     return cell;
 }

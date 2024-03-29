@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readwrite, assign) NSInteger index;
 @property (nonatomic, readwrite, copy) NSString *text;
+@property (nonatomic, readwrite, assign) BOOL isFocused;
 @property (nonatomic, readwrite, copy, nullable) void (^onTapped)(NSInteger index);
 @property (nonatomic, readwrite, copy, nullable) void (^onDoubleTapped)(void);
 
