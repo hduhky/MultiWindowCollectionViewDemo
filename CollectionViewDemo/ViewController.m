@@ -82,6 +82,10 @@
     cell.index = index;
     cell.onTapped = ^(NSInteger index) {
         if (index < self.randomColors.count) {
+            CollectionViewCell *oldCell = [self.multiWindowView cellForItemAtIndex:self.multiWindowView.currentFocusIndex];
+            oldCell.isFocused = NO;
+            CollectionViewCell *currentCell = [self.multiWindowView cellForItemAtIndex:index];
+            currentCell.isFocused = YES;
             self.multiWindowView.currentFocusIndex = index;
         }
     };

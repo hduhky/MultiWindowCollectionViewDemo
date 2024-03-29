@@ -31,8 +31,8 @@
     NSInteger currentPage = index / self.itemsPerPage; // 计算所在页数
     NSInteger adjustedIndex = index % self.itemsPerPage; // 计算在当前页内的索引
     
-    NSInteger col = adjustedIndex / self.rowCount; // 计算列数
-    NSInteger row = adjustedIndex % self.rowCount; // 计算行数
+    NSInteger row = adjustedIndex / self.colCount; // 计算行数
+    NSInteger col = adjustedIndex % self.colCount; // 计算列数
     
     NSInteger indexPathRow = col * self.rowCount + row; // 还原为每页的初始index
     indexPathRow += currentPage * self.itemsPerPage; // 加上页数偏移量

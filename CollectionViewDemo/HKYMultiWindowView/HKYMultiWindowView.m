@@ -47,7 +47,6 @@
 - (void)setCurrentFocusIndex:(NSInteger)currentFocusIndex {
     if (_currentFocusIndex != currentFocusIndex) {
         _currentFocusIndex = currentFocusIndex;
-        [self.collectionView reloadData];
         if ([self.delegate respondsToSelector:@selector(multiWindowView:onCurrentFocusIndexChanged:)]) {
             [self.delegate multiWindowView:self onCurrentFocusIndexChanged:currentFocusIndex];
         }
@@ -64,6 +63,11 @@
 - (__kindof UICollectionViewCell *)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndex:(NSInteger)index {
     NSIndexPath *indexPath = [self.windowModel indexPathWithTransformedIndex:index];
     return [self.collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+}
+
+- (nullable __kindof UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index {
+    NSIndexPath *indexPath = [self.windowModel indexPathWithTransformedIndex:index];
+    return [self.collectionView cellForItemAtIndexPath:indexPath];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -100,6 +104,7 @@
     if (oldPageIndex != currentPageIndex) {
         self.currentPageIndex = currentPageIndex;
         self.currentFocusIndex = currentPageIndex * self.windowModel.itemsPerPage;
+        [self.collectionView reloadData];
     }
 }
 

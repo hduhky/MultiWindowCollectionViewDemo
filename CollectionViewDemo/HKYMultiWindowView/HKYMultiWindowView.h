@@ -40,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (__kindof UICollectionViewCell *)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndex:(NSInteger)index;
 
+- (nullable __kindof UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index;
+
 @end
 
 NS_ASSUME_NONNULL_END
