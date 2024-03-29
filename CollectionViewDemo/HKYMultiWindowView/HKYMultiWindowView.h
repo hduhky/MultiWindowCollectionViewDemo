@@ -42,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable __kindof UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index;
 
+- (void)reloadData;
+
 @end
 
 NS_ASSUME_NONNULL_END

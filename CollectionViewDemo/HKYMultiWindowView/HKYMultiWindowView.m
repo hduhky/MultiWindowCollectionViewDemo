@@ -70,6 +70,10 @@
     return [self.collectionView cellForItemAtIndexPath:indexPath];
 }
 
+- (void)reloadData {
+    [self.collectionView reloadData];
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if ([self.dataSource respondsToSelector:@selector(multiWindowViewNumberOfItems:)]) {
